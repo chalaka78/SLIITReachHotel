@@ -106,7 +106,7 @@ function MyNotes({ history, search }) {
                       className="mx-2"
                       onClick={() => deleteHandler(note._id)}
                     >
-                      Delete
+                      Cancel Reservation
                     </Button>
                   </div>
                 </Card.Header>
