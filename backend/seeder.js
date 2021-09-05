@@ -4,7 +4,7 @@ import colors from "colors";
 import users from "./data/users.js";
 import notes from "./data/notes.js";
 import User from "./models/userModel.js";
-import Note from "./models/noteModel.js";
+import Reservation from "./models/reservationModel";
 import connectDB from "./config/db.js";
 
 dotenv.config();
@@ -13,18 +13,18 @@ connectDB();
 
 const importData = async () => {
   try {
-    await Note.deleteMany();
+    await Reservation.deleteMany();
     await User.deleteMany();
 
     const createdUsers = await User.insertMany(users);
 
     const adminUser = createdUsers[0]._id;
 
-    const sampleNotes = notes.map((note) => {
-      return { ...note, user: adminUser };
+    const sampleReservations = reservations.map((reservation) => {
+      return { ...reservation, user: adminUser };
     });
 
-    await Note.insertMany(sampleNotes);
+    await Reservation.insertMany(sampleReservations);
 
     console.log("Data Imported!".green.inverse);
     process.exit();
@@ -36,7 +36,7 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
-    await Note.deleteMany();
+    await Reservation.deleteMany();
     await User.deleteMany();
 
     console.log("Data Destroyed!".red.inverse);

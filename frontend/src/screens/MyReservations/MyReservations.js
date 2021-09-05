@@ -5,38 +5,38 @@ import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNoteAction, listNotes } from "../../actions/notesActions";
+import { deleteReservationAction, listReservations } from "../../actions/reservationsActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
-function MyNotes({ history, search }) {
+function MyReservations({ history, search }) {
   const dispatch = useDispatch();
 
-  const noteList = useSelector((state) => state.noteList);
-  const { loading, error, notes } = noteList;
+  const reservationList = useSelector((state) => state.reservationList);
+  const { loading, error, reservations } = reservationList;
 
-  // const filteredNotes = notes.filter((note) =>
-  //   note.title.toLowerCase().includes(search.toLowerCase())
+  // const filteredNotes = reservations.filter((reservation) =>
+  //   reservation.title.toLowerCase().includes(search.toLowerCase())
   // );
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const noteDelete = useSelector((state) => state.noteDelete);
+  const reservationDelete = useSelector((state) => state.reservationDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = noteDelete;
+  } = reservationDelete;
 
-  const noteCreate = useSelector((state) => state.noteCreate);
-  const { success: successCreate } = noteCreate;
+  const reservationCreate = useSelector((state) => state.reservationCreate);
+  const { success: successCreate } = reservationCreate;
 
-  const noteUpdate = useSelector((state) => state.noteUpdate);
-  const { success: successUpdate } = noteUpdate;
+  const reservationUpdate = useSelector((state) => state.reservationUpdate);
+  const { success: successUpdate } = reservationUpdate;
 
   useEffect(() => {
-    dispatch(listNotes());
+    dispatch(listReservations());
     if (!userInfo) {
       history.push("/");
     }
@@ -51,14 +51,14 @@ function MyNotes({ history, search }) {
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      dispatch(deleteNoteAction(id));
+      dispatch(deleteReservationAction(id));
     }
   };
 
   return (
     <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
-      {console.log(notes)}
-      <Link to="/createnote">
+      {console.log(reservations)}
+      <Link to="/createreservation">
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
           Make new Reservation
         </Button>
@@ -69,18 +69,18 @@ function MyNotes({ history, search }) {
       )}
       {loading && <Loading />}
       {loadingDelete && <Loading />}
-      {notes &&
-        notes
+      {reservations &&
+        reservations
           .filter((filteredNote) =>
             filteredNote.title.toLowerCase().includes(search.toLowerCase())
           )
           .reverse()
-          .map((note) => (
+          .map((reservation) => (
             <Accordion>
-              <Card style={{ margin: 10 }} key={note._id}>
+              <Card style={{ margin: 10 }} key={reservation._id}>
                 <Card.Header style={{ display: "flex" }}>
                   <span
-                    // onClick={() => ModelShow(note)}
+                    // onClick={() => ModelShow(reservation)}
                     style={{
                       color: "black",
                       textDecoration: "none",
@@ -95,16 +95,16 @@ function MyNotes({ history, search }) {
                       variant="link"
                       eventKey="0"
                     >
-                      {note.title}
+                      {reservation.title}
                     </Accordion.Toggle>
                   </span>
 
                   <div>
-                    <Button href={`/note/${note._id}`}>Edit</Button>
+                    <Button href={`/reservation/${reservation._id}`}>Edit</Button>
                     <Button
                       variant="danger"
                       className="mx-2"
-                      onClick={() => deleteHandler(note._id)}
+                      onClick={() => deleteHandler(reservation._id)}
                     >
                       Cancel Reservation
                     </Button>
@@ -114,15 +114,15 @@ function MyNotes({ history, search }) {
                   <Card.Body>
                     <h4>
                       <Badge variant="success">
-                        Category - {note.category}
+                        Category - {reservation.category}
                       </Badge>
                     </h4>
                     <blockquote className="blockquote mb-0">
-                      <ReactMarkdown>{note.content}</ReactMarkdown>
+                      <ReactMarkdown>{reservation.content}</ReactMarkdown>
                       <footer className="blockquote-footer">
                         Created on{" "}
                         <cite title="Source Title">
-                          {note.createdAt.substring(0, 10)}
+                          {reservation.createdAt.substring(0, 10)}
                         </cite>
                       </footer>
                     </blockquote>
@@ -135,4 +135,4 @@ function MyNotes({ history, search }) {
   );
 }
 
-export default MyNotes;
+export default MyReservations;

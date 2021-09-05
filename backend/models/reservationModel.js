@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const noteSchema = mongoose.Schema(
+const ReservationSchema = mongoose.Schema(
   {
     title: {
       type: String,
@@ -25,6 +25,6 @@ const noteSchema = mongoose.Schema(
   }
 );
 
-const Note = mongoose.model("Note", noteSchema);
+const Reservation = mongoose.model("Reservation", ReservationSchema);
 
-export default Note;
+export default Reservation;
