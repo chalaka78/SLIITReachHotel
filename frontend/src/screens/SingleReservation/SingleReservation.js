@@ -3,12 +3,12 @@ import MainScreen from "../../components/MainScreen";
 import axios from "axios";
 import { Button, Card, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteNoteAction, updateNoteAction } from "../../actions/notesActions";
+import { deleteReservationAction, updateReservationAction } from "../../actions/reservationsActions";
 import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import ReactMarkdown from "react-markdown";
 
-function SingleNote({ match, history }) {
+function SingleReservation({ match, history }) {
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const [category, setCategory] = useState();
@@ -16,22 +16,22 @@ function SingleNote({ match, history }) {
 
   const dispatch = useDispatch();
 
-  const noteUpdate = useSelector((state) => state.noteUpdate);
-  const { loading, error } = noteUpdate;
+  const reservationUpdate = useSelector((state) => state.reservationUpdate);
+  const { loading, error } = reservationUpdate;
 
-  const noteDelete = useSelector((state) => state.noteDelete);
-  const { loading: loadingDelete, error: errorDelete } = noteDelete;
+  const reservationDelete = useSelector((state) => state.reservationDelete);
+  const { loading: loadingDelete, error: errorDelete } = reservationDelete;
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      dispatch(deleteNoteAction(id));
+      dispatch(deleteReservationAction(id));
     }
-    history.push("/mynotes");
+    history.push("/myreservations");
   };
 
   useEffect(() => {
     const fetching = async () => {
-      const { data } = await axios.get(`/api/notes/${match.params.id}`);
+      const { data } = await axios.get(`/api/reservations/${match.params.id}`);
 
       setTitle(data.title);
       setContent(data.content);
@@ -50,11 +50,11 @@ function SingleNote({ match, history }) {
 
   const updateHandler = (e) => {
     e.preventDefault();
-    dispatch(updateNoteAction(match.params.id, title, content, category));
+    dispatch(updateReservationAction(match.params.id, title, content, category));
     if (!title || !content || !category) return;
 
     resetHandler();
-    history.push("/mynotes");
+    history.push("/myreservations");
   };
 
   return (
@@ -90,7 +90,7 @@ function SingleNote({ match, history }) {
             </Form.Group>
             {content && (
               <Card>
-                <Card.Header>Note Preview</Card.Header>
+                <Card.Header>Reservation Preview</Card.Header>
                 <Card.Body>
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </Card.Body>
@@ -108,7 +108,7 @@ function SingleNote({ match, history }) {
             </Form.Group>
             {loading && <Loading size={50} />}
             <Button variant="primary" type="submit">
-              Update Note
+              Update Reservation
             </Button>
             <Button
               className="mx-2"
@@ -128,4 +128,4 @@ function SingleNote({ match, history }) {
   );
 }
 
-export default SingleNote;
+export default SingleReservation;

@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import MainScreen from "../../components/MainScreen";
 import { Button, Card, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { createNoteAction } from "../../actions/notesActions";
+import { createReservationAction } from "../../actions/reservationsActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import ReactMarkdown from "react-markdown";
 
-function CreateNote({ history }) {
+function CreateReservation({ history }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
 
   const dispatch = useDispatch();
 
-  const noteCreate = useSelector((state) => state.noteCreate);
-  const { loading, error, note } = noteCreate;
+  const reservationCreate = useSelector((state) => state.reservationCreate);
+  const { loading, error, reservation } = reservationCreate;
 
-  console.log(note);
+  console.log(reservation);
 
   const resetHandler = () => {
     setTitle("");
@@ -27,11 +27,11 @@ function CreateNote({ history }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createNoteAction(title, content, category));
+    dispatch(createReservationAction(title, content, category));
     if (!title || !content || !category) return;
 
     resetHandler();
-    history.push("/mynotes");
+    history.push("/myreservations");
   };
 
   useEffect(() => {}, []);
@@ -65,7 +65,7 @@ function CreateNote({ history }) {
             </Form.Group>
             {content && (
               <Card>
-                <Card.Header>Note Preview</Card.Header>
+                <Card.Header>Reservation Preview</Card.Header>
                 <Card.Body>
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </Card.Body>
@@ -99,4 +99,4 @@ function CreateNote({ history }) {
   );
 }
 
-export default CreateNote;
+export default CreateReservation;
