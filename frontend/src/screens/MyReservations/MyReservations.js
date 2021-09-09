@@ -71,8 +71,8 @@ function MyReservations({ history, search }) {
       {loadingDelete && <Loading />}
       {reservations &&
         reservations
-          .filter((filteredNote) =>
-            filteredNote.title.toLowerCase().includes(search.toLowerCase())
+          .filter((reservation) =>
+          reservation.title.toLowerCase().includes(search.toLowerCase())
           )
           .reverse()
           .map((reservation) => (
