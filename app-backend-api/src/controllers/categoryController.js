@@ -36,9 +36,23 @@ const getRoomsForCategories = async (req, res) => {
     }
 }
 
+const calculateAmount = async (req, res) => {
+    if (req.params && req.params.id) {        
+        const category = await Category.findById(req.params.id).populate('rooms', 'amount')
+        let totalAmount = 0;
+        if(category.rooms.length > 0) {
+            category.rooms.map((room) => {
+                totalAmount += room.amount;
+            });
+        }       
+            res.status(200).send({totalAmount: totalAmount})  //pass data as the response to the frontend
+        
+    }
+}
+
 module.exports = {
     createCategory,
     getAllCategories,
     getRoomsForCategories,
-    //calculateAmount
+    calculateAmount
 };
