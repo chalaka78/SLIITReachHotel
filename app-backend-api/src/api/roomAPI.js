@@ -4,6 +4,6 @@ const controller = require('../controllers/roomController');
 
 module.exports = function () {
     router.post('/create',controller.createRoom); //referring the function
-    //router.get('/',controller.getAllRooms);
+    router.get('/',controller.getAllRooms);
     return router;
 };
