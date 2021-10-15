@@ -18,9 +18,10 @@ Project Discription -
 
 
 Technologies -
-React
-NodeJs
-MongoDB
+
+     React
+     NodeJs
+     MongoDB
 
 How to get started -
 
